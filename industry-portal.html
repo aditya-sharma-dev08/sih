@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Industry Partner Portal - AyushConnect</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <style>
+      /* Content blur jab tak login na ho */
+      .blur-content {
+        filter: blur(8px);
+        pointer-events: none;
+        user-select: none;
+        transition: filter 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <!-- LOGIN MODAL (Non-closable until logged in) -->
+    <div
+      class="modal fade"
+      id="industryLoginModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div
+            class="modal-header bg-primary text-white rounded-top-4 border-0"
+          >
+            <h5 class="modal-title fw-bold">
+              <i class="bi bi-building-lock me-2"></i>Industry Partner
+              Authentication
+            </h5>
+          </div>
+          <div class="modal-body p-4">
+            <p class="text-muted small mb-4">
+              Please enter your verified Industry ID and Password to access
+              student recruitment and application portals.
+            </p>
+
+            <div
+              id="loginAlert"
+              class="alert alert-danger d-none py-2 small"
+              role="alert"
+            >
+              Invalid Industry ID or Password!
+            </div>
+
+            <form id="industryLoginForm" onsubmit="handleIndustryLogin(event)">
+              <div class="mb-3">
+                <label class="form-label fw-bold small"
+                  >Industry / Corporate ID</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-building"></i
+                  ></span>
+                  <input
+                    type="text"
+                    id="indId"
+                    class="form-control"
+                    placeholder="e.g. IND-AYUSH-2026"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold small">Access Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-key-fill"></i
+                  ></span>
+                  <input
+                    type="password"
+                    id="indPass"
+                    class="form-control"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 mt-4">
+                <button
+                  type="submit"
+                  class="btn btn-primary fw-bold rounded-pill"
+                >
+                  <i class="bi bi-box-arrow-in-right me-1"></i> Access Industry
+                  Portal
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm rounded-pill mt-1"
+                  onclick="autofillDemo()"
+                >
+                  <i class="bi bi-magic me-1"></i> Auto-fill Demo Credentials
+                </button>
+              </div>
+            </form>
+          </div>
+          <div
+            class="modal-footer bg-light rounded-bottom-4 border-0 text-center justify-content-center py-2"
+          >
+            <small class="text-muted"
+              >Demo ID: <code>IND-AYUSH-2026</code> | Pass:
+              <code>admin123</code></small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PORTAL CONTENT (Locked behind Auth) -->
+    <div id="mainPortalContent" class="blur-content">
+      <nav class="navbar navbar-dark bg-primary px-4 shadow-sm">
+        <a class="navbar-brand fw-bold" href="#"
+          ><i class="bi bi-building"></i> AyushConnect
+          <span class="badge bg-light text-primary ms-2"
+            >Industry Portal</span
+          ></a
+        >
+        <div class="d-flex align-items-center gap-3">
+          <span class="text-white small d-none d-md-inline" id="userCompanyTag"
+            ><i class="bi bi-patch-check-fill text-warning me-1"></i> Verified
+            Partner</span
+          >
+          <button
+            class="btn btn-sm btn-outline-light rounded-pill px-3"
+            onclick="logoutIndustry()"
+          >
+            <i class="bi bi-power me-1"></i> Logout
+          </button>
+        </div>
+      </nav>
+
+      <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">Recruitment & Applicant Review</h4>
+            <small class="text-muted"
+              >Manage live student applications & internships</small
+            >
+          </div>
+          <button
+            class="btn btn-sm btn-outline-primary"
+            onclick="syncIndustryData()"
+          >
+            <i class="bi bi-arrow-clockwise"></i> Refresh Applications
+          </button>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 text-center rounded-4">
+              <i class="bi bi-inbox display-4 text-primary mb-2"></i>
+              <h6 class="text-muted">Total Received</h6>
+              <h1 id="indTotal" class="fw-bold text-primary mb-0">0</h1>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 text-center rounded-4">
+              <i class="bi bi-check2-circle display-4 text-success mb-2"></i>
+              <h6 class="text-muted">Accepted Candidates</h6>
+              <h1 id="indAccepted" class="fw-bold text-success mb-0">0</h1>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 text-center rounded-4">
+              <i class="bi bi-clock-history display-4 text-warning mb-2"></i>
+              <h6 class="text-muted">Pending Review</h6>
+              <h1 id="indPending" class="fw-bold text-warning mb-0">0</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- Applicant Action Table -->
+        <div class="card border-0 shadow-sm rounded-4 p-3">
+          <h6 class="fw-bold mb-3">
+            <i class="bi bi-people-fill text-primary me-2"></i>Live Incoming
+            Student Applications
+          </h6>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>App ID</th>
+                  <th>Student Name</th>
+                  <th>Applied Role</th>
+                  <th>Match Score</th>
+                  <th>Current Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="industryAppLogs"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let loginModal;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loginModal = new bootstrap.Modal(
+          document.getElementById("industryLoginModal"),
+        );
+
+        // Check Session Storage
+        if (sessionStorage.getItem("industry_logged_in") === "true") {
+          unlockPortal();
+        } else {
+          loginModal.show();
+        }
+      });
+
+      // Demo Autofill Function
+      function autofillDemo() {
+        document.getElementById("indId").value = "IND-AYUSH-2026";
+        document.getElementById("indPass").value = "admin123";
+        document.getElementById("loginAlert").classList.add("d-none");
+      }
+
+      // Login Handler
+      function handleIndustryLogin(e) {
+        e.preventDefault();
+        const id = document.getElementById("indId").value.trim();
+        const pass = document.getElementById("indPass").value.trim();
+
+        // Verified Credentials
+        if (id === "IND-AYUSH-2026" && pass === "admin123") {
+          sessionStorage.setItem("industry_logged_in", "true");
+          unlockPortal();
+        } else {
+          document.getElementById("loginAlert").classList.remove("d-none");
+        }
+      }
+
+      function unlockPortal() {
+        loginModal.hide();
+        document
+          .getElementById("mainPortalContent")
+          .classList.remove("blur-content");
+        syncIndustryData();
+        setInterval(syncIndustryData, 2000); // Live sync
+      }
+
+      function logoutIndustry() {
+        sessionStorage.removeItem("industry_logged_in");
+        location.reload();
+      }
+
+      // Sync Data with LocalStorage
+      function syncIndustryData() {
+        const apps =
+          JSON.parse(localStorage.getItem("ayush_applications")) || [];
+        document.getElementById("indTotal").innerText = apps.length;
+        document.getElementById("indAccepted").innerText = apps.filter(
+          (a) => a.status === "Accepted",
+        ).length;
+        document.getElementById("indPending").innerText = apps.filter(
+          (a) => a.status === "Pending",
+        ).length;
+
+        const tbody = document.getElementById("industryAppLogs");
+        tbody.innerHTML = "";
+
+        if (apps.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">No incoming applications yet. Apply from Student Portal to see live updates!</td></tr>`;
+          return;
+        }
+
+        apps.forEach((app, index) => {
+          tbody.innerHTML += `
+          <tr>
+            <td><code>#${app.appId}</code></td>
+            <td class="fw-bold">${app.studentName}</td>
+            <td>${app.jobTitle}</td>
+            <td><span class="badge bg-info text-dark">${app.matchScore || "88% Match"}</span></td>
+            <td><span class="badge ${app.status === "Accepted" ? "bg-success" : app.status === "Rejected" ? "bg-danger" : "bg-warning text-dark"}">${app.status}</span></td>
+            <td>
+              <button class="btn btn-sm btn-success me-1" ${app.status === "Accepted" ? "disabled" : ""} onclick="updateAppStatus(${index}, 'Accepted')"><i class="bi bi-check-lg"></i> Accept</button>
+              <button class="btn btn-sm btn-outline-danger" ${app.status === "Rejected" ? "disabled" : ""} onclick="updateAppStatus(${index}, 'Rejected')"><i class="bi bi-x-lg"></i> Reject</button>
+            </td>
+          </tr>
+        `;
+        });
+      }
+
+      function updateAppStatus(index, newStatus) {
+        let apps = JSON.parse(localStorage.getItem("ayush_applications")) || [];
+        if (apps[index]) {
+          apps[index].status = newStatus;
+          localStorage.setItem("ayush_applications", JSON.stringify(apps));
+          syncIndustryData();
+        }
+      }
+    </script>
+  </body>
+</html>
