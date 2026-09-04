@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academia Portal - AyushConnect</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      .blur-content {
+        filter: blur(8px);
+        pointer-events: none;
+        user-select: none;
+        transition: filter 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <!-- FACULTY LOGIN MODAL -->
+    <div
+      class="modal fade"
+      id="facultyLoginModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div
+            class="modal-header text-white rounded-top-4 border-0"
+            style="background-color: #0f5132"
+          >
+            <h5 class="modal-title fw-bold text-white">
+              <i class="bi bi-person-workspace me-2"></i>Faculty & Academic
+              Portal Access
+            </h5>
+          </div>
+          <div class="modal-body p-4">
+            <p class="text-muted small mb-4">
+              Please enter your verified Institutional Faculty ID and Password
+              to manage student approvals, skill ratings, and internship
+              recommendations.
+            </p>
+
+            <div
+              id="facultyLoginAlert"
+              class="alert alert-danger d-none py-2 small"
+              role="alert"
+            >
+              Invalid Faculty ID or Access Password!
+            </div>
+
+            <form id="facultyLoginForm" onsubmit="handleFacultyLogin(event)">
+              <div class="mb-3">
+                <label class="form-label fw-bold small"
+                  >Faculty / Educator ID</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-person-vcard"></i
+                  ></span>
+                  <input
+                    type="text"
+                    id="facultyId"
+                    class="form-control"
+                    placeholder="e.g. FACULTY-DEMO"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold small">Access Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="bi bi-key-fill"></i
+                  ></span>
+                  <input
+                    type="password"
+                    id="facultyPass"
+                    class="form-control"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 mt-4">
+                <button
+                  type="submit"
+                  class="btn text-white fw-bold rounded-pill"
+                  style="background-color: #0f5132"
+                >
+                  <i class="bi bi-box-arrow-in-right me-1"></i> Access Faculty
+                  Dashboard
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm rounded-pill mt-1"
+                  onclick="autofillFacultyDemo()"
+                >
+                  <i class="bi bi-magic me-1"></i> Auto-fill Demo Credentials
+                </button>
+              </div>
+            </form>
+          </div>
+          <div
+            class="modal-footer bg-light rounded-bottom-4 border-0 text-center justify-content-center py-2"
+          >
+            <small class="text-muted"
+              >Demo ID: <code>FACULTY-DEMO</code> | Pass:
+              <code></code></small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PORTAL CONTENT -->
+    <div id="mainFacultyContent" class="blur-content">
+      <nav
+        class="navbar navbar-dark bg-success px-4 shadow-sm"
+        style="background-color: #0f5132 !important"
+      >
+        <a class="navbar-brand fw-bold" href="#">
+          <i class="bi bi-journal-bookmark-fill me-1"></i> AyushConnect
+          <span class="badge bg-light text-success ms-2"
+            >Academia Portal</span
+          >
+        </a>
+        <div class="d-flex align-items-center gap-3">
+          <span class="text-white-50 small d-none d-md-inline"
+            ><i class="bi bi-patch-check-fill text-warning me-1"></i> Verified
+            Academic Evaluator</span
+          >
+          <button
+            class="btn btn-sm btn-outline-light rounded-pill px-3"
+            onclick="logoutFaculty()"
+          >
+            <i class="bi bi-power me-1"></i> Logout
+          </button>
+        </div>
+      </nav>
+
+      <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h4 class="fw-bold mb-1">
+              Student Endorsement & Skill Supervision
+            </h4>
+            <small class="text-muted"
+              >Review student readiness, track ongoing internship drives, and
+              endorse candidate profiles</small
+            >
+          </div>
+          <button
+            class="btn btn-sm btn-outline-success"
+            onclick="syncFacultyData()"
+          >
+            <i class="bi bi-arrow-clockwise"></i> Refresh Portal
+          </button>
+        </div>
+
+        <!-- Quick Metrics Cards -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-3">
+            <div
+              class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-success"
+            >
+              <small class="text-muted fw-bold">TOTAL APPLICANTS</small>
+              <h2 id="facTotal" class="fw-bold text-success mb-0">0</h2>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div
+              class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-primary"
+            >
+              <small class="text-muted fw-bold">VERIFIED & ACCEPTED</small>
+              <h2 id="facAccepted" class="fw-bold text-primary mb-0">0</h2>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div
+              class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-warning"
+            >
+              <small class="text-muted fw-bold">UNDER REVIEW</small>
+              <h2 id="facPending" class="fw-bold text-warning mb-0">0</h2>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div
+              class="card border-0 shadow-sm p-3 rounded-4 bg-white border-start border-4 border-info"
+            >
+              <small class="text-muted fw-bold">AVG. SKILL ENDORSEMENT</small>
+              <h2 id="facAvgScore" class="fw-bold text-info mb-0">91.2%</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status Chart Only -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-12">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+              <h6 class="fw-bold mb-3">
+                <i class="bi bi-pie-chart-fill text-success me-2"></i>Student
+                Application Status Ratio
+              </h6>
+              <div
+                style="max-height: 300px; position: relative"
+                class="d-flex justify-content-center"
+              >
+                <canvas id="facStatusChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Table -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+          <h6 class="fw-bold mb-3">
+            <i class="bi bi-award-fill text-success me-2"></i>Student
+            Application Approvals & Skill Endorsements
+          </h6>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>App ID</th>
+                  <th>Student Name</th>
+                  <th>Target Industry Role</th>
+                  <th>Match Score</th>
+                  <th>Status</th>
+                  <th>Faculty Action</th>
+                </tr>
+              </thead>
+              <tbody id="facultyAppLogs"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      let facultyModal;
+      let facStatusChartInstance = null;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        facultyModal = new bootstrap.Modal(
+          document.getElementById("facultyLoginModal"),
+        );
+
+        if (sessionStorage.getItem("faculty_logged_in") === "true") {
+          unlockFacultyPortal();
+        } else {
+          facultyModal.show();
+        }
+      });
+
+      function autofillFacultyDemo() {
+        document.getElementById("facultyId").value = "FACULTY-DEMO";
+        document.getElementById("facultyPass").value = "";
+        document.getElementById("facultyLoginAlert").classList.add("d-none");
+      }
+
+      function handleFacultyLogin(e) {
+        e.preventDefault();
+        const id = document.getElementById("facultyId").value.trim();
+        const pass = document.getElementById("facultyPass").value.trim();
+
+        if (id === "FACULTY-DEMO" && pass === "") {
+          sessionStorage.setItem("faculty_logged_in", "true");
+          unlockFacultyPortal();
+        } else {
+          document
+            .getElementById("facultyLoginAlert")
+            .classList.remove("d-none");
+        }
+      }
+
+      function unlockFacultyPortal() {
+        facultyModal.hide();
+        document
+          .getElementById("mainFacultyContent")
+          .classList.remove("blur-content");
+        syncFacultyData();
+        setInterval(syncFacultyData, 2000);
+      }
+
+      function logoutFaculty() {
+        sessionStorage.removeItem("faculty_logged_in");
+        location.reload();
+      }
+
+      function syncFacultyData() {
+        const apps =
+          JSON.parse(localStorage.getItem("ayush_applications")) || [];
+
+        const total = apps.length;
+        const accepted = apps.filter((a) => a.status === "Accepted").length;
+        const pending = apps.filter((a) => a.status === "Pending").length;
+        const rejected = apps.filter((a) => a.status === "Rejected").length;
+
+        document.getElementById("facTotal").innerText = total;
+        document.getElementById("facAccepted").innerText = accepted;
+        document.getElementById("facPending").innerText = pending;
+
+        const tbody = document.getElementById("facultyAppLogs");
+        tbody.innerHTML = "";
+
+        if (apps.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-4">No student applications to endorse right now.</td></tr>`;
+        } else {
+          apps.forEach((app, index) => {
+            tbody.innerHTML += `
+            <tr>
+              <td><code>#${app.appId}</code></td>
+              <td class="fw-bold">${app.studentName}</td>
+              <td>${app.jobTitle}</td>
+              <td><span class="badge bg-info text-dark">${app.matchScore || "92% Match"}</span></td>
+              <td><span class="badge ${app.status === "Accepted" ? "bg-success" : app.status === "Rejected" ? "bg-danger" : "bg-warning text-dark"}">${app.status}</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline-success me-1" ${app.status === "Accepted" ? "disabled" : ""} onclick="updateFacultyAppStatus(${index}, 'Accepted')"><i class="bi bi-check-circle"></i> Endorse</button>
+                <button class="btn btn-sm btn-outline-secondary" ${app.status === "Rejected" ? "disabled" : ""} onclick="updateFacultyAppStatus(${index}, 'Rejected')"><i class="bi bi-x-circle"></i> Flag</button>
+              </td>
+            </tr>
+          `;
+          });
+        }
+
+        renderFacultyGraphs(accepted, pending, rejected, total);
+      }
+
+      function updateFacultyAppStatus(index, newStatus) {
+        let apps = JSON.parse(localStorage.getItem("ayush_applications")) || [];
+        if (apps[index]) {
+          apps[index].status = newStatus;
+          localStorage.setItem("ayush_applications", JSON.stringify(apps));
+          syncFacultyData();
+        }
+      }
+
+      function renderFacultyGraphs(accepted, pending, rejected, total) {
+        const ctxStatus = document
+          .getElementById("facStatusChart")
+          .getContext("2d");
+        if (facStatusChartInstance) facStatusChartInstance.destroy();
+
+        facStatusChartInstance = new Chart(ctxStatus, {
+          type: "pie",
+          data: {
+            labels: [
+              "Endorsed / Accepted",
+              "Pending Verification",
+              "Flagged / Review",
+            ],
+            datasets: [
+              {
+                data: [accepted, pending, rejected || (total === 0 ? 1 : 0)],
+                backgroundColor: ["#198754", "#ffc107", "#dc3545"],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

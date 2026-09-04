@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Portal - AyushConnect</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <style>
+      .hidden-section {
+        display: none !important;
+      }
+      .card-hover {
+        transition: transform 0.2s;
+      }
+      .card-hover:hover {
+        transform: translateY(-3px);
+      }
+    
+
+:root{--g:#198754;--gd:#0f5132;--soft:#eaf6ef;--bg:#f6f9f7;--ink:#17372b;--muted:#6d7a74;--line:#dce9e1;--gold:#ffc107}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.navbar{background:linear-gradient(90deg,var(--gd),var(--g))}
+.card{border:0;border-radius:20px}.icon-box{width:58px;height:58px;border-radius:16px;background:var(--soft);color:var(--g);display:flex;align-items:center;justify-content:center;font-size:1.45rem}
+.section-title{font-weight:800;color:var(--gd)}.role-card,.feature-card{transition:.18s}.role-card:hover,.feature-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(19,55,43,.10)!important}
+.form-control,.form-select{border-radius:10px;padding:.72rem .85rem}.form-control:focus,.form-select:focus{border-color:#65b88d;box-shadow:0 0 0 .2rem rgba(25,135,84,.12)}
+.btn{border-radius:10px}.badge-soft{background:#e7f4ec;color:#167446;border:1px solid #cce6d6}.small-muted{font-size:.84rem;color:var(--muted)}
+.skill-choice{border:1px solid var(--line);background:#fbfffc;border-radius:12px;padding:.65rem .7rem;cursor:pointer;transition:.15s}.skill-choice:hover{border-color:#9ed0b4;background:#f2fbf5}
+.skill-choice input:checked{accent-color:var(--g)}
+.stat{border-left:4px solid var(--g)}.kpi{font-size:2rem;font-weight:800}.job-card{border-left:4px solid var(--g)}
+.progress{height:9px;border-radius:999px}.empty{border:2px dashed #d7e5dc;background:#fff;border-radius:18px}
+.avatar{width:44px;height:44px;border-radius:14px;background:var(--soft);color:var(--gd);display:flex;align-items:center;justify-content:center;font-weight:800}
+.sticky{position:sticky;top:88px}.footer{background:#10251d;color:#d5e3dd}.auth-shell{min-height:calc(100vh - 64px);display:flex;align-items:center}
+
+</style>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-dark bg-success px-4 shadow-sm">
+      <a class="navbar-brand fw-bold" href="#"
+        ><i class="bi bi-flower1"></i> AyushConnect
+        <span class="badge bg-light text-success ms-2">Student Portal</span></a
+      >
+      <div
+        id="userInfoNav"
+        class="text-white small hidden-section d-flex align-items-center"
+      >
+        <div class="me-3 text-end">
+          <div class="fw-bold" id="navStudentName">User</div>
+          <small class="text-warning fw-semibold" id="navStudentId">ID</small>
+        </div>
+        <button class="btn btn-sm btn-outline-light" onclick="logoutStudent()">
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="container my-5">
+      <!-- AUTH SECTION -->
+      <div id="authSection" class="row justify-content-center">
+        <div class="col-md-5">
+          <div class="card border-0 shadow-lg p-4 rounded-4">
+            <form id="loginForm">
+              <h5 class="fw-bold mb-3 text-success">Student Login</h5>
+              <div class="mb-3">
+                <label class="form-label fw-bold small">System Unique ID</label>
+                <input
+                  type="text"
+                  id="loginEmail"
+                  class="form-control"
+                  placeholder="STU-DEMO-REMOVED"
+                  required
+                />
+                <a href="student-signup.html" class="btn btn-sm btn-link text-success p-0 mt-1">Create a new student account</a>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold small">Password</label>
+                <input type="password" id="loginPassword" class="form-control" required />
+              </div>
+              <button type="submit" class="btn btn-success w-100 fw-bold">
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD SECTION -->
+      <div id="dashboardSection" class="hidden-section">
+        <!-- Counters (Default 0/NIL) -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div
+              class="card border-0 shadow-sm p-3 border-start border-primary border-4 rounded-3"
+            >
+              <small class="text-muted fw-bold">Applications Sent</small>
+              <h2 id="statApplied" class="fw-bold text-primary mb-0">0</h2>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="card border-0 shadow-sm p-3 border-start border-success border-4 rounded-3"
+            >
+              <small class="text-muted fw-bold">Accepted</small>
+              <h2 id="statAccepted" class="fw-bold text-success mb-0">0</h2>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="card border-0 shadow-sm p-3 border-start border-danger border-4 rounded-3"
+            >
+              <small class="text-muted fw-bold">Rejected</small>
+              <h2 id="statRejected" class="fw-bold text-danger mb-0">0</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Notification Status Tracker -->
+        <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold mb-0">
+              <i class="bi bi-bell-fill text-warning me-2"></i>Live Application
+              Status
+            </h6>
+            <button
+              class="btn btn-sm btn-light border"
+              onclick="loadDashboard()"
+            >
+              <i class="bi bi-arrow-clockwise"></i> Sync
+            </button>
+          </div>
+          <div id="applicationStatusList" class="small text-muted">
+            No active applications. Apply below!
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <h5 class="fw-bold mb-3">
+              <i class="bi bi-cpu-fill text-success me-2"></i>Ranked
+              Opportunities
+            </h5>
+            <div id="internshipList"></div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4 mb-3 rounded-4 bg-white">
+              <h6 class="fw-bold" id="cardName">Student Name</h6>
+              <small class="text-muted d-block" id="cardCollege">College</small>
+              <hr />
+              <div class="small">
+                <strong>ID:</strong>
+                <span id="cardUniqueId" class="text-success fw-bold">--</span>
+              </div>
+              <div class="small">
+                <strong>Stream:</strong> <span id="cardStream">--</span>
+              </div>
+            </div>
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white">
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <h6 class="fw-bold mb-0">Verified Skills</h6>
+                <span class="badge bg-success" id="skillCountBadge">0</span>
+              </div>
+              <div
+                id="badgeSkillList"
+                class="d-flex flex-wrap gap-1 mt-2 mb-3"
+              ></div>
+              <button
+                class="btn btn-outline-success btn-sm w-100 fw-bold rounded-pill"
+                data-bs-toggle="modal"
+                data-bs-target="#editSkillsModal"
+              >
+                <i class="bi bi-pencil-square me-1"></i> Edit Skills
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EDIT SKILLS MODAL -->
+    <div class="modal fade" id="editSkillsModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header bg-success text-white">
+            <h5 class="fw-bold mb-0">Select / Edit Skills</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body p-4">
+            <form id="editSkillsForm">
+              <div class="row g-2" id="skillsCheckboxContainer"></div>
+              <hr class="my-3" />
+              <button type="submit" class="btn btn-success fw-bold w-100">
+                Save Skills
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const ALL_SKILLS = [
+        "Python",
+        "SQL",
+        "REST APIs",
+        "Cybersecurity",
+        "Data Analysis",
+        "Machine Learning",
+        "React",
+        "Git/GitHub",
+        "Clinical Data Management",
+        "Regulatory Affairs",
+        "PostgreSQL",
+      ];
+      let currentUser = null;
+
+      function autoFill() {
+        document.getElementById("loginUniqueId").value = "STU-DEMO-REMOVED";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderCheckboxes();
+        document.getElementById("loginForm").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+          const password = document.getElementById("loginPassword").value;
+          const students = JSON.parse(localStorage.getItem("ayush_students")) || [];
+          const user = students.find((s) => s.email === email && s.password === password);
+          if (user) {
+            currentUser = user;
+            sessionStorage.setItem("current_student_email", user.email);
+            loadDashboard();
+          } else {
+            alert("Invalid email or password");
+          }
+        });
+        document
+          .getElementById("editSkillsForm")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            currentUser.skills = Array.from(
+              document.querySelectorAll(".skill-chk:checked"),
+            ).map((c) => c.value);
+            localStorage.setItem(currentUser.id, JSON.stringify(currentUser));
+            loadDashboard();
+            bootstrap.Modal.getInstance(
+              document.getElementById("editSkillsModal"),
+            ).hide();
+          });
+      });
+
+      function renderCheckboxes() {
+        document.getElementById("skillsCheckboxContainer").innerHTML =
+          ALL_SKILLS.map(
+            (s, i) => `
+        <div class="col-md-6"><div class="form-check p-2 border rounded bg-light">
+          <input class="form-check-input skill-chk ms-1 me-2" type="checkbox" value="${s}" id="sk_${i}">
+          <label class="form-check-label small fw-bold" for="sk_${i}">${s}</label>
+        </div></div>
+      `,
+          ).join("");
+      }
+
+      function loadDashboard() {
+        document.getElementById("authSection").classList.add("hidden-section");
+        document
+          .getElementById("dashboardSection")
+          .classList.remove("hidden-section");
+        document
+          .getElementById("userInfoNav")
+          .classList.remove("hidden-section");
+
+        document.getElementById("navStudentName").innerText = currentUser.name;
+        document.getElementById("navStudentId").innerText = currentUser.id;
+        document.getElementById("cardName").innerText = currentUser.name;
+        document.getElementById("cardCollege").innerText = currentUser.college;
+        document.getElementById("cardUniqueId").innerText = currentUser.id;
+        document.getElementById("cardStream").innerText = currentUser.stream;
+
+        document
+          .querySelectorAll(".skill-chk")
+          .forEach((c) => (c.checked = currentUser.skills.includes(c.value)));
+        document.getElementById("skillCountBadge").innerText =
+          `${currentUser.skills.length} Skills`;
+        document.getElementById("badgeSkillList").innerHTML = currentUser.skills
+          .map(
+            (s) =>
+              `<span class="badge bg-success-subtle text-success border me-1">${s}</span>`,
+          )
+          .join("");
+
+        syncStatsAndJobs();
+      }
+
+      function syncStatsAndJobs() {
+        const apps =
+          JSON.parse(localStorage.getItem("ayush_applications")) || [];
+        const userApps = apps.filter((a) => a.studentId === currentUser.id);
+
+        document.getElementById("statApplied").innerText = userApps.length;
+        document.getElementById("statAccepted").innerText = userApps.filter(
+          (a) => a.status === "Accepted",
+        ).length;
+        document.getElementById("statRejected").innerText = userApps.filter(
+          (a) => a.status === "Rejected",
+        ).length;
+
+        const tracker = document.getElementById("applicationStatusList");
+        if (userApps.length === 0) {
+          tracker.innerHTML = "No active applications. Apply below!";
+        } else {
+          tracker.innerHTML = userApps
+            .map(
+              (a) => `
+          <div class="alert ${a.status === "Accepted" ? "alert-success" : a.status === "Rejected" ? "alert-danger" : "alert-warning"} py-2 px-3 mb-2 d-flex justify-content-between align-items-center">
+            <div><strong>${a.jobTitle}</strong> - <small>${a.company}</small></div>
+            <span class="badge bg-dark">${a.status}</span>
+          </div>
+        `,
+            )
+            .join("");
+        }
+
+        const jobs =
+          JSON.parse(localStorage.getItem("ayush_job_postings")) || [];
+        const container = document.getElementById("internshipList");
+        container.innerHTML = "";
+
+        jobs.forEach((job) => {
+          const applied = userApps.find((a) => a.jobId === job.id);
+          container.innerHTML += `
+          <div class="card p-3 shadow-sm mb-3 border-start border-4 border-success rounded-3 card-hover">
+            <h6 class="fw-bold">${job.title}</h6>
+            <p class="text-muted small mb-2">${job.company} • ${job.loc} • Stipend: ${job.stipend}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="badge bg-light text-dark border">${job.skills.join(", ")}</span>
+              ${
+                applied
+                  ? `<span class="badge ${applied.status === "Accepted" ? "bg-success" : applied.status === "Rejected" ? "bg-danger" : "bg-warning text-dark"} px-3 py-2">Status: ${applied.status}</span>`
+                  : `<button class="btn btn-sm btn-success rounded-pill fw-bold" onclick="apply(${job.id}, '${job.title}', '${job.company}')">Apply Direct</button>`
+              }
+            </div>
+          </div>
+        `;
+        });
+      }
+
+      function apply(jobId, title, company) {
+        const apps =
+          JSON.parse(localStorage.getItem("ayush_applications")) || [];
+        apps.push({
+          appId: Date.now(),
+          studentId: currentUser.id,
+          studentName: currentUser.name,
+          jobId,
+          jobTitle: title,
+          company,
+          status: "Pending",
+        });
+        localStorage.setItem("ayush_applications", JSON.stringify(apps));
+        loadDashboard();
+      }
+
+      function logoutStudent() {
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
