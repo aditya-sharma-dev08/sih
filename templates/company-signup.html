@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block title %}Company Registration | AyushConnect{% endblock %}
+{% block content %}<main class="container py-5"><div class="row justify-content-center"><div class="col-xl-9"><div class="card-soft p-4 p-md-5">
+<div class="d-flex align-items-center gap-3 mb-4"><div class="icon-box"><i class="bi bi-building-add"></i></div><div><span class="badge badge-soft">Industry Partner</span><h2 class="fw-bold text-success mb-1">Create your company account</h2><p class="text-muted mb-0">Publish software jobs and internships and manage student applications.</p></div></div>
+<form method="post"><div class="row g-3">
+<div class="col-md-6"><label class="form-label fw-semibold">Company Name</label><input name="company_name" class="form-control" placeholder="Example Technologies Pvt. Ltd." required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Corporate Email</label><input name="email" type="email" class="form-control" placeholder="recruiter@company.com" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Industry</label><input name="industry" class="form-control" placeholder="Software / IT" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Recruiter / Contact Person</label><input name="contact_person" class="form-control" placeholder="Recruiter name" required></div>
+<div class="col-12"><label class="form-label fw-semibold">Company Description</label><textarea name="description" class="form-control" rows="4" placeholder="Briefly describe your company and the kind of talent you hire."></textarea></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Password</label><input name="password" type="password" minlength="6" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Confirm Password</label><input name="confirm_password" type="password" minlength="6" class="form-control" required></div>
+</div><button class="btn btn-success w-100 fw-bold py-3 mt-4"><i class="bi bi-building-check me-2"></i>Create Company Account</button></form>
+<div class="text-center mt-4 small">Already registered? <a href="/industry-login" class="text-success fw-bold">Go to Industry Login</a></div>
+</div></div></div></main>{% endblock %}

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}AyushConnect | Collaboration Portal{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-8">
+        <span class="badge bg-light text-success mb-3">SIH26044 · Skill & Placement Platform</span>
+        <h1 class="fw-bold mb-4">Connect student skills with the right opportunity.</h1>
+        <p class="lead mb-4">A unified platform for software and technology internships, jobs, student profiles, company requirements, applications, skill matching, and institutional visibility.</p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="#roles" class="btn btn-light btn-lg fw-bold px-4 text-success">Explore Portals</a>
+          <a href="{{ url_for('student_signup') }}" class="btn btn-outline-light btn-lg fw-bold px-4">Student Sign Up</a>
+          <a href="{{ url_for('company_signup') }}" class="btn btn-light btn-lg fw-bold px-4 text-success">Company Sign Up</a>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="glass rounded-4 p-4 shadow-lg">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="icon-box bg-white"><i class="bi bi-stars"></i></div>
+            <div>
+              <div class="fw-bold fs-5">Core workflow</div>
+              <small class="text-white-50">Profile → Match → Apply → Review → Outcome</small>
+            </div>
+          </div>
+          <div class="small text-white-50">Students build skill profiles. Companies publish openings and requirements. The platform calculates skill overlap and carries applications through review.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="py-5">
+  <div class="container py-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <span class="badge badge-soft mb-2">Problem we solve</span>
+        <h2 class="section-title mb-3">One place for the complete internship and placement journey.</h2>
+        <p class="text-secondary lead fs-6">Students need a clearer path from skills to opportunities. Recruiters need structured candidate information. Academic institutions need visibility into readiness, industry engagement, applications and outcomes.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="card bg-white shadow-sm p-4">
+          <div class="row g-4">
+            <div class="col-sm-6">
+              <b><i class="bi bi-person-vcard text-success me-2"></i>Student profiles</b>
+              <div class="small-muted mt-1">Education, technical skills, role preference and portfolio links.</div>
+            </div>
+            <div class="col-sm-6">
+              <b><i class="bi bi-briefcase text-success me-2"></i>Company listings</b>
+              <div class="small-muted mt-1">Jobs and internships with pay, location, mode, duration, deadline, openings and requirements.</div>
+            </div>
+            <div class="col-sm-6">
+              <b><i class="bi bi-stars text-success me-2"></i>Skill assessment & mapping</b>
+              <div class="small-muted mt-1">One shared skill taxonomy powers consistent matching and academic endorsements.</div>
+            </div>
+            <div class="col-sm-6">
+              <b><i class="bi bi-graph-up-arrow text-success me-2"></i>Placement tracking</b>
+              <div class="small-muted mt-1">Applications, decisions, match scores and institutional metrics stay connected.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="py-5 bg-white">
+  <div class="container py-4">
+    <h2 class="section-title text-center mb-2">Platform Features</h2>
+    <p class="text-center text-muted mb-5">Built around the student, industry and academic workflow.</p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card bg-light rounded-4 shadow-sm p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-person-badge"></i></div>
+          <h5 class="fw-bold">Student workspace</h5>
+          <p class="text-muted small mb-0">Create a complete profile, select technical skills, discover matched opportunities, apply and track outcomes.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card bg-light rounded-4 shadow-sm p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-building-check"></i></div>
+          <h5 class="fw-bold">Recruiter workspace</h5>
+          <p class="text-muted small mb-0">Register a company, publish openings, select standardized requirements and review applicants.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card bg-light rounded-4 shadow-sm p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-stars"></i></div>
+          <h5 class="fw-bold">Skill matching</h5>
+          <p class="text-muted small mb-0">Calculate the percentage of required job skills already present in a student profile.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card bg-light rounded-4 shadow-sm p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-person-workspace"></i></div>
+          <h5 class="fw-bold">Academic supervision</h5>
+          <p class="text-muted small mb-0">Faculty review student participation and record skill endorsements with ratings and notes.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card bg-light rounded-4 shadow-sm p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-bar-chart-line"></i></div>
+          <h5 class="fw-bold">Institutional analytics</h5>
+          <p class="text-muted small mb-0">Track students, companies, jobs, applications, acceptance rates and average match scores.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card bg-light rounded-4 shadow-sm p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-mortarboard"></i></div>
+          <h5 class="fw-bold">Industry learning</h5>
+          <p class="text-muted small mb-0">Keep skills, preferred roles, internships and academic readiness visible in one connected workflow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roles" class="py-5">
+  <div class="container py-4">
+    <h2 class="section-title text-center mb-2">Choose your portal</h2>
+    <p class="text-center text-muted mb-5">Role-based workspaces for every stakeholder.</p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="role-card bg-white shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="icon-box mx-auto"><i class="bi bi-mortarboard-fill"></i></div>
+          <h5 class="fw-bold mt-3">Student</h5>
+          <p class="small text-muted">Profile, skills, matched jobs, applications and status.</p>
+          <a href="{{ url_for('student_login') }}" class="btn btn-success w-100">Student Login</a>
+          <a href="{{ url_for('student_signup') }}" class="btn btn-outline-success w-100 mt-2">Sign Up</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="role-card bg-white shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="icon-box mx-auto"><i class="bi bi-building"></i></div>
+          <h5 class="fw-bold mt-3">Industry</h5>
+          <p class="small text-muted">Publish opportunities and manage candidates.</p>
+          <a href="{{ url_for('company_login') }}" class="btn btn-success w-100">Industry Login</a>
+          <a href="{{ url_for('company_signup') }}" class="btn btn-outline-success w-100 mt-2">Register</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="role-card bg-white shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="icon-box mx-auto"><i class="bi bi-person-workspace"></i></div>
+          <h5 class="fw-bold mt-3">Academician</h5>
+          <p class="small text-muted">Review readiness and endorse student skills.</p>
+          <a href="{{ url_for('faculty_login') }}" class="btn btn-success w-100">College Portal</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="role-card bg-white shadow-sm rounded-4 p-4 text-center h-100">
+          <div class="icon-box mx-auto"><i class="bi bi-bar-chart-line"></i></div>
+          <h5 class="fw-bold mt-3">Admin</h5>
+          <p class="small text-muted">Institution-wide analytics and platform oversight.</p>
+          <a href="{{ url_for('admin_login') }}" class="btn btn-dark w-100">Admin Portal</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

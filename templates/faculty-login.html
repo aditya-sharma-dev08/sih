@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Faculty Login | AyushConnect{% endblock %}
+{% block content %}<main class="auth-shell py-5"><div class="container"><div class="row justify-content-center"><div class="col-md-7 col-lg-5"><div class="card-soft p-4 p-md-5">
+<div class="text-center mb-4"><div class="icon-box mx-auto"><i class="bi bi-person-workspace"></i></div><h2 class="fw-bold text-success mt-3">Faculty & Academic Login</h2><p class="text-muted">Review student readiness, applications and skill endorsements.</p></div>
+<form method="post"><label class="form-label fw-semibold">Faculty Email</label><input name="email" type="email" class="form-control mb-3" required placeholder="faculty@ayushconnect.local"><label class="form-label fw-semibold">Password</label><input name="password" type="password" class="form-control mb-4" required placeholder="Enter your password"><button class="btn btn-success w-100 fw-bold">Access Faculty Dashboard</button></form>
+<button type="button" class="btn btn-outline-success w-100 mt-2" onclick="fillFacultyDemo()"><i class="bi bi-magic me-1"></i>Autofill Demo Credentials</button>
+<script>function fillFacultyDemo(){document.querySelector('input[name="email"]').value='faculty@ayushconnect.local';document.querySelector('input[name="password"]').value='Faculty@123';}</script>
+<div class="alert alert-light border mt-4 small mb-0"><strong>Demo faculty:</strong> faculty@ayushconnect.local · Faculty@123</div>
+</div></div></div></main>{% endblock %}

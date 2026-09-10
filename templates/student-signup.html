@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block title %}Student Sign Up | AyushConnect{% endblock %}
+{% block content %}<main class="container py-5"><div class="row justify-content-center"><div class="col-xl-9"><div class="card-soft p-4 p-md-5">
+<div class="d-flex align-items-center gap-3 mb-4"><div class="icon-box"><i class="bi bi-person-plus-fill"></i></div><div><span class="badge badge-soft">Student Account</span><h2 class="fw-bold text-success mb-1">Create your student profile</h2><p class="text-muted mb-0">Build a technical profile for internship and placement matching.</p></div></div>
+<form method="post"><div class="row g-3">
+<div class="col-md-6"><label class="form-label fw-semibold">Full Name</label><input name="name" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Email Address</label><input name="email" type="email" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">College / University</label><input name="college" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Course</label><input name="course" class="form-control" placeholder="B.Tech Information Technology" required></div>
+<div class="col-md-4"><label class="form-label fw-semibold">Graduation Year</label><select name="graduation_year" class="form-select" required>{% for y in range(2026,2036) %}<option>{{y}}</option>{% endfor %}</select></div>
+<div class="col-md-8"><label class="form-label fw-semibold">Preferred Role</label><select name="preferred_role" class="form-select">{% for r in ['Software Development','Web Development','Data Science','AI / ML','Cybersecurity','Cloud / DevOps','UI / UX'] %}<option>{{r}}</option>{% endfor %}</select></div>
+<div class="col-md-6"><label class="form-label fw-semibold">GitHub URL <span class="text-muted fw-normal">(optional)</span></label><input name="github" type="url" class="form-control" placeholder="https://github.com/username"></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Portfolio URL <span class="text-muted fw-normal">(optional)</span></label><input name="portfolio" type="url" class="form-control" placeholder="https://yourportfolio.com"></div>
+<div class="col-12"><label class="form-label fw-semibold">Technical Skills</label><div class="row g-2">{% for skill in skills_catalog %}<div class="col-6 col-md-4 col-lg-3"><label class="skill-chip d-block small fw-semibold"><input name="skills" value="{{skill}}" class="me-2" type="checkbox">{{skill}}</label></div>{% endfor %}</div><div class="small-muted mt-2">Choose at least two skills. These same skills are used by recruiters for job requirements.</div></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Password</label><input name="password" type="password" minlength="6" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label fw-semibold">Confirm Password</label><input name="confirm_password" type="password" minlength="6" class="form-control" required></div>
+</div><button class="btn btn-success w-100 fw-bold py-3 mt-4"><i class="bi bi-person-check-fill me-2"></i>Create Student Account</button></form>
+<div class="text-center mt-4 small">Already registered? <a href="/student-login" class="text-success fw-bold">Go to Student Login</a></div>
+</div></div></div></main>{% endblock %}

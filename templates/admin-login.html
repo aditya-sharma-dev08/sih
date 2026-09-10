@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}<main class="auth-shell py-5"><div class="container"><div class="row justify-content-center"><div class="col-md-7 col-lg-5"><div class="card-soft p-4 p-md-5">
+<div class="text-center mb-4"><div class="icon-box mx-auto"><i class="bi bi-shield-lock-fill"></i></div><h2 class="fw-bold text-success mt-3">Admin Login</h2><p class="text-muted">View platform-wide analytics and activity.</p></div>
+<form method="post"><label class="form-label fw-semibold">Email</label><input name="email" type="email" class="form-control mb-3" required placeholder="admin@ayushconnect.local">
+<label class="form-label fw-semibold">Password</label><input name="password" type="password" class="form-control mb-4" required placeholder="Enter your password">
+<button class="btn btn-success w-100 fw-bold py-2">Access Dashboard</button></form>
+<button type="button" class="btn btn-outline-success w-100 mt-2" onclick="fillAdminDemo()"><i class="bi bi-magic me-1"></i>Autofill Demo Credentials</button>
+<script>function fillAdminDemo(){document.querySelector('input[name="email"]').value='admin@ayushconnect.local';document.querySelector('input[name="password"]').value='Admin@123';}</script>
+<div class="text-center mt-4 small">Institutional demo access is configured in the README.</div>
+</div></div></div></main>{% endblock %}

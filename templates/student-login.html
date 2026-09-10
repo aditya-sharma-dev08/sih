@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block content %}<main class="auth-shell py-5"><div class="container"><div class="row justify-content-center"><div class="col-md-7 col-lg-5"><div class="card-soft p-4 p-md-5">
+<div class="text-center mb-4"><div class="icon-box mx-auto"><i class="bi bi-person-circle"></i></div><h2 class="fw-bold text-success mt-3">Student Login</h2><p class="text-muted">Access your profile, matched openings and applications.</p></div>
+<form method="post"><label class="form-label fw-semibold">Email</label><input name="email" type="email" class="form-control mb-3" required placeholder="student@example.com">
+<label class="form-label fw-semibold">Password</label><input name="password" type="password" class="form-control mb-4" required placeholder="Enter your password">
+<button class="btn btn-success w-100 fw-bold py-2">Login</button></form>
+<div class="text-center mt-4 small">New student? <a href="/student-signup" class="text-success fw-bold">Create an account</a></div>
+</div></div></div></main>{% endblock %}
